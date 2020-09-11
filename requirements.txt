@@ -1,3 +1,5 @@
 base58==2.0.1
+dsm==0.5.3
 ecdsa==0.16.0
+observable==1.0.3
 six==1.15.0
