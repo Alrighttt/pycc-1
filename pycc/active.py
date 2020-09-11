@@ -2,8 +2,8 @@ from pycc import *
 from pycctx import *
 import json
 import traceback
-import pycc.active_cc.simplestate as stupidstate1
-import pycc.active_cc.simplestate2 as stupidstate2
+import pycc.active_cc.simplestate as stupidstate
+import pycc.active_cc.faucet as faucet
 
 import pdb
 import dsm
@@ -11,8 +11,8 @@ import ast
 
 # this is where we can define which CCs are active on a given chain, if they are not defined here, validation will fail 100% of the time
 # maybe a more elegant way of doing this, but each chain could have their own version of this "active.py" 
-cc_info = {"stupidstate1": stupidstate1.info,
-           "stupidstate2": stupidstate2.info}
+cc_info = {"faucet": faucet.info,
+           "stupidstate": stupidstate1.info}
 
 ###### FIXME move these helpers elsewhere or at least clean them up into classes
 def help_info(specific=None):
@@ -74,7 +74,6 @@ def cc_eval(chain, tx_bin, nIn, eval_code):
 # FIXME move this to individual modules, allow them to define the state machine however they like 
 # dsm lib not required, can arbitrarily define how this machine works
 def MakeState(prevblockJSON, events, module_info):
-    print("MY MAKE STATE EVENTS", events)
     minerstate_tx = Tx.decode(prevblockJSON['minerstate_tx'])
     prevstate = find_miner_state(minerstate_tx, module_info['name'])
     # FIXME need to implement a special case for initializing a state when a new pycc module with FSM is introduced 
@@ -130,7 +129,6 @@ def cc_block_eval(blockJSON, prevblockJSON):
 
 # FIXME really need to clean this mess up, maybe it's fine as devs/users should never have to touch it 
 def cc_cli(chain, code):
-    #print("COOOODEEEE", code)
     try:
         code = json.loads(code)
         if code[-1] == 'MakeState': 
