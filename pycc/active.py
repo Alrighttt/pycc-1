@@ -12,7 +12,7 @@ import ast
 # this is where we can define which CCs are active on a given chain, if they are not defined here, validation will fail 100% of the time
 # maybe a more elegant way of doing this, but each chain could have their own version of this "active.py" 
 cc_info = {"faucet": faucet.info,
-           "stupidstate": stupidstate1.info}
+           "stupidstate": stupidstate.info}
 
 ###### FIXME move these helpers elsewhere or at least clean them up into classes
 def help_info(specific=None):
